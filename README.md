@@ -4,7 +4,7 @@ Ein Skill für Claude Code (läuft auch mit Codex).
 
 Mit diesem Skill baust du mit Claude Code eine richtig hochwertige Webseite und übergibst sie so an deinen Kunden, dass er Texte und Fotos selbst ändern kann. Ohne WordPress, ohne Datenbank, ohne Plugin-Updates.
 
-Der Skill führt Claude durch den kompletten Weg: Seite mit dem Scrollcraft-Skill bauen, so aufbauen, dass alle Inhalte pflegbar sind, in ein privates GitHub-Repo legen, Pages CMS als Redaktionsoberfläche einrichten und auf Wunsch bei Hostinger veröffentlichen. Am Ende bekommst du noch eine Übergabe-Checkliste und eine kurze Anleitung für deinen Kunden.
+Der Skill führt Claude durch den kompletten Weg: Seite mit Scrollcraft oder Impeccable bauen, so aufbauen, dass alle Inhalte pflegbar sind, in ein privates GitHub-Repo legen, Pages CMS als Redaktionsoberfläche einrichten und auf Wunsch bei Hostinger veröffentlichen. Am Ende bekommst du noch eine Übergabe-Checkliste und eine kurze Anleitung für deinen Kunden.
 
 ## Installation
 
@@ -14,12 +14,17 @@ Der Skill führt Claude durch den kompletten Weg: Seite mit dem Scrollcraft-Skil
    cp -R website-mit-pages-cms/website-mit-pages-cms ~/.claude/skills/
    ```
    Ohne Git: oben auf „Code“ → „Download ZIP“, entpacken und den inneren Ordner `website-mit-pages-cms` nach `~/.claude/skills/` legen. Für Codex kommt er nach `~/.codex/skills/`.
-2. Für die schicken Scroll-Animationen den Scrollcraft-Skill von Nate Herk installieren (kostenlos, MIT-Lizenz). In Claude Code:
-   ```
-   /plugin marketplace add nateherkai/scroll-craft
-   /plugin install nateherk-design
-   ```
-   Ohne Scrollcraft funktioniert der Skill auch, die Seite wird dann nur weniger aufwendig animiert.
+2. Einen der beiden Design-Skills installieren, am besten beide:
+   - **Scrollcraft** von Nate Herk (MIT) für Seiten mit richtig schicken Scroll-Animationen. In Claude Code:
+     ```
+     /plugin marketplace add nateherkai/scroll-craft
+     /plugin install nateherk-design
+     ```
+   - **Impeccable** von Paul Bakaus (Apache 2.0) für sauberes Design ohne KI-Look und zum Prüfen und Polieren. Im Terminal:
+     ```bash
+     npx impeccable install
+     ```
+   Ohne beide funktioniert der Skill auch, die Seite wird dann aber weniger besonders.
 3. Claude Code in einem leeren Ordner starten und z. B. sagen: **„Bau mir eine Webseite für <Kunde> mit Pages CMS, die ich übergeben kann.“**
 
 ## Was du brauchst
@@ -31,7 +36,7 @@ Der Skill führt Claude durch den kompletten Weg: Seite mit dem Scrollcraft-Skil
 
 ## So läuft es ab
 
-Claude fragt dich kurz nach Kunde, Sprachen und Hosting. Dann baut Scrollcraft die Seite mit eigenem Interview zu Stil und Aufbau. Danach kommt das Repo, dann Pages CMS. Den Pages-CMS-Teil prüft ein mitgeliefertes Skript Feld für Feld, weil Pages CMS beim Speichern alles löscht, was nicht in seiner Konfiguration steht. Das ist die größte Falle, und die ist damit abgefangen.
+Claude fragt dich kurz nach Kunde, Sprachen und Hosting. Dann baut Scrollcraft oder Impeccable die Seite, mit eigenem Ablauf für Stil und Aufbau. Hast du beide, baut Scrollcraft und Impeccable poliert danach. Danach kommt das Repo, dann Pages CMS. Den Pages-CMS-Teil prüft ein mitgeliefertes Skript Feld für Feld, weil Pages CMS beim Speichern alles löscht, was nicht in seiner Konfiguration steht. Das ist die größte Falle, und die ist damit abgefangen.
 
 Bei zwei Schritten musst du selbst ran: bei der Anmeldung in Pages CMS und bei den Einstellungen im Hostinger-Panel. Claude sagt dir genau, was du wo eintragen musst.
 
@@ -51,4 +56,4 @@ Alles liegt im Ordner `website-mit-pages-cms/`:
 
 ## Lizenz
 
-MIT, siehe `LICENSE`. Scrollcraft ist ein eigenständiger Skill von Nate Herk (github.com/nateherkai/scroll-craft) und nicht Teil dieses Repos.
+MIT, siehe `LICENSE`. Scrollcraft (github.com/nateherkai/scroll-craft) und Impeccable (github.com/pbakaus/impeccable) sind eigenständige Skills ihrer Autoren und nicht Teil dieses Repos.

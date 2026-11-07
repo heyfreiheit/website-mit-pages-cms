@@ -1,6 +1,6 @@
 ---
 name: website-mit-pages-cms
-description: Kompletter Weg von der Idee zur übergabefertigen Kundenwebseite. Baut eine hochwertige, scroll-animierte Webseite (mit dem Scrollcraft-Skill, falls installiert), legt sie so an, dass alle Texte und Fotos ohne Code pflegbar sind, stellt sie in ein privates GitHub-Repo, richtet Pages CMS als Redaktionsoberfläche für den Kunden ein und führt optional durch die Veröffentlichung bei Hostinger. Verwenden, wenn jemand eine Webseite mit KI bauen und an einen Kunden übergeben will, eine Seite „mit CMS“, „mit Backend“ oder „die der Kunde selbst pflegen kann“ braucht, Pages CMS einbauen will, eine bestehende Astro-Seite an Pages CMS anbinden will oder eine solche Seite bei Hostinger veröffentlichen möchte. Auch bei „Webseite erstellen und übergeben“, „Kunde soll Texte und Bilder selbst ändern“, „.pages.yml“.
+description: Kompletter Weg von der Idee zur übergabefertigen Kundenwebseite. Baut eine hochwertige Webseite mit einem der beiden Design-Skills Scrollcraft (scroll-animierte Erlebnisseite) oder Impeccable (Design-Vokabular und Qualitätsprüfung), legt sie so an, dass alle Texte und Fotos ohne Code pflegbar sind, stellt sie in ein privates GitHub-Repo, richtet Pages CMS als Redaktionsoberfläche für den Kunden ein und führt optional durch die Veröffentlichung bei Hostinger. Verwenden, wenn jemand eine Webseite mit KI bauen und an einen Kunden übergeben will, eine Seite „mit CMS“, „mit Backend“ oder „die der Kunde selbst pflegen kann“ braucht, Pages CMS einbauen will, eine bestehende Astro-Seite an Pages CMS anbinden will oder eine solche Seite bei Hostinger veröffentlichen möchte. Auch bei „Webseite erstellen und übergeben“, „Kunde soll Texte und Bilder selbst ändern“, „.pages.yml“.
 ---
 
 # Website mit Pages CMS: bauen, anbinden, übergeben
@@ -19,14 +19,16 @@ git --version
 gh auth status     # GitHub-CLI angemeldet? Sonst: gh auth login
 ```
 
-Prüfe außerdem, ob der Scrollcraft-Skill verfügbar ist, also ob `scroll-craft` in der Skill-Liste dieser Sitzung steht. Wenn nicht, dem Nutzer die Installation anbieten (Skill von Nate Herk, MIT-Lizenz):
+Prüfe außerdem, welcher Design-Skill verfügbar ist. Empfohlen ist mindestens einer der beiden:
 
-```text
-/plugin marketplace add nateherkai/scroll-craft
-/plugin install nateherk-design
-```
+| Skill | Stärke | Installation |
+|---|---|---|
+| **Scrollcraft** (Nate Herk, MIT) | Erlebnisseiten mit Scroll-Animationen, Ebenen-Hero, einem inszenierten Höhepunkt. Für Seiten, die Eindruck machen sollen: Hotel, Restaurant, Marke, Produkt | `/plugin marketplace add nateherkai/scroll-craft`, dann `/plugin install nateherk-design` |
+| **Impeccable** (Paul Bakaus, Apache 2.0) | Design-Vokabular und Prüfung: eigene Gestaltungsrichtung, Typografie, Abstände, Farbe, dazu Kritik, technisches Audit und ein Detektor gegen den typischen KI-Look. Für ruhigere Business-Seiten und zum Feinschliff jeder Seite | im Projektordner `npx impeccable install` (fragt nach Projekt oder global, den angebotenen Design-Hook annehmen), danach Claude Code neu laden. Alternativ als Plugin: `/plugin marketplace add pbakaus/impeccable`, dann unter `/plugin` installieren |
 
-Ohne Scrollcraft funktioniert der Ablauf trotzdem. Dann baust du die Seite selbst, mit denselben Architektur-Regeln. Gestaltung trotzdem ernst nehmen: echte Fotos, eigene Typografie, keine Standard-Templates.
+Steht `scroll-craft` oder `impeccable` in der Skill-Liste dieser Sitzung, ist der Skill da. Fehlen beide, dem Nutzer die Tabelle zeigen und fragen, welchen er installieren will. Am stärksten ist die Kombination: Scrollcraft baut, Impeccable prüft und poliert.
+
+Ohne beide funktioniert der Ablauf trotzdem. Dann baust du die Seite selbst, mit denselben Architektur-Regeln. Gestaltung trotzdem ernst nehmen: echte Fotos, eigene Typografie, keine Standard-Templates.
 
 Fehlt `gh` oder ist es nicht angemeldet, das dem Nutzer sagen. Login-Daten nie selbst eintippen und nie im Chat erfragen.
 
@@ -40,22 +42,30 @@ Frag in einer Nachricht, nicht als Fragebogen-Marathon:
 4. Wo soll die Seite später laufen? (Hostinger, anderer Hoster, noch offen.)
 5. Unter welchem GitHub-Account soll das Repo liegen? (Persönlich oder Organisation.)
 
-Stil, Stimmung und Aufbau klärt Scrollcraft in seinem eigenen Interview. Frag das hier nicht doppelt.
+6. Erlebnisseite mit Scroll-Animationen (Scrollcraft) oder eine ruhigere, klassisch aufgebaute Seite (Impeccable)? Nur fragen, wenn beide installiert sind und es aus dem Auftrag nicht klar wird.
+
+Stil, Stimmung und Aufbau klärt der Design-Skill in seinem eigenen Ablauf. Frag das hier nicht doppelt.
 
 Inhalte von einer bestehenden Seite übernehmen: Texte und Fotos der Seite lesen und herunterladen (nur vom Kunden selbst oder mit seinem Einverständnis). Fotos nach `gen/src/` (nicht ins Repo), daraus WebP-Dateien für `public/img/` erzeugen.
 
 ## Phase 2: Seite bauen
 
-Lies zuerst `$SK/references/architektur.md`. Dort steht, wie die Seite aufgebaut sein muss, damit Pages CMS sie später pflegen kann. Diese Regeln gelten zusätzlich zu allem, was Scrollcraft vorgibt, und gehen bei Widerspruch vor. Die wichtigsten:
+Lies zuerst `$SK/references/architektur.md`. Dort steht, wie die Seite aufgebaut sein muss, damit Pages CMS sie später pflegen kann. Diese Regeln gelten zusätzlich zu allem, was der Design-Skill vorgibt, und gehen bei Widerspruch vor. Die wichtigsten:
 
-- **Astro-Projekt** (statisch), nicht eine einzelne HTML-Datei. Scrollcraft liefert Konzept, Brief, Gestaltung, Animationen und seine Engine; umgesetzt wird das als Astro-Seite.
+- **Astro-Projekt** (statisch), nicht eine einzelne HTML-Datei. Der Design-Skill liefert Konzept und Gestaltung, umgesetzt wird das als Astro-Seite.
 - **Alle pflegbaren Inhalte in JSON-Dateien** unter `src/content/`, eine Datei pro Abschnitt. Nichts davon fest im HTML.
 - **Genau eine Ladedatei** `src/lib/content.ts` (Vorlage: `$SK/templates/content.ts`). Seiten holen Inhalte nur von dort.
 - **Bilder als Pfad** (`/img/sauna.webp`) in den JSON-Dateien, Dateien in `public/img/`.
 - **Keine Datei, deren oberste Ebene eine Liste ist.** Listen immer in ein Feld packen: `{ "items": [ … ] }`.
 - Gestaltungs-Bilder, die exakt zur Animation passen müssen (freigestellte Hero-Ebenen, Masken), bleiben fest im Code und kommen nicht ins CMS.
 
-Dann Scrollcraft normal durchlaufen: Interview, Brief, Höhepunkt, Assets, Bau, Prüfung mit Screenshots auf Desktop, Handy und reduzierter Bewegung. Am Ende `npm run build` muss fehlerfrei laufen.
+**Mit Scrollcraft:** Scrollcraft normal durchlaufen: Interview, Brief, Höhepunkt, Assets, Bau, Prüfung mit Screenshots auf Desktop, Handy und reduzierter Bewegung. Seine Engine kommt unverändert ins Astro-Projekt (siehe architektur.md).
+
+**Mit Impeccable:** Zuerst das Astro-Grundgerüst nach architektur.md anlegen, dann `/impeccable init` (schreibt `PRODUCT.md` mit Zielgruppe und Ton, einmal pro Projekt). Danach die Seite beschreiben, z. B. `/impeccable design a homepage for <Kunde>: <Abschnitte>, built as Astro components that read all text from src/lib/content.ts`. Impeccable schlägt Richtungen vor, der Nutzer wählt, Impeccable baut. Ohne Bildgenerierung baut es direkt im Code. Danach Abschnitt für Abschnitt prüfen, eng gefasst statt die ganze Seite auf einmal: `/impeccable critique <Abschnitt>`, `/impeccable audit <Abschnitt>`, zum Schluss `/impeccable polish`. Die Arbeitsdateien in `.impeccable/` laut Impeccable-README in die `.gitignore`, `PRODUCT.md` und `DESIGN.md` bleiben im Repo.
+
+**Beide installiert:** mit Scrollcraft bauen, danach mit `/impeccable audit` und `/impeccable polish` nachschärfen. Animationen, die Scrollcraft bewusst gesetzt hat, dabei nicht „wegpolieren“ lassen.
+
+Danach prüfen, dass der Design-Skill die Architektur nicht unterlaufen hat: Texte fest im HTML, Listen auf oberster Ebene einer JSON-Datei, Bilder ohne Pfad im Content. Gegebenenfalls nachziehen. Am Ende muss `npm run build` fehlerfrei laufen.
 
 Kopiere `$SK/scripts/images.mjs` nach `tools/images.mjs` im Projekt, installiere `sharp` und trag es als `predev` und `prebuild` ein (siehe architektur.md). Dann darf der Kunde auch Handyfotos als JPG hochladen.
 

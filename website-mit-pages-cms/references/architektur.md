@@ -26,7 +26,9 @@ export default defineConfig({
 
 Nur wenn es einen echten Grund für Server-Rendering gibt (Formular-Backend, Login), auf `@astrojs/node` umstellen. Das braucht beim Hoster Node.js-Hosting und kostet mehr.
 
-Scrollcraft-Engine: `scrollcraft.js` nach `public/js/`, `scrollcraft.css` nach `src/styles/`, beide unverändert. Eigene Logik in `src/scripts/`, eigene Gestaltung in `src/styles/site.css`.
+Mit Scrollcraft: Engine `scrollcraft.js` nach `public/js/`, `scrollcraft.css` nach `src/styles/`, beide unverändert. Eigene Logik in `src/scripts/`, eigene Gestaltung in `src/styles/site.css`.
+
+Mit Impeccable: `.impeccable/` (Arbeitsdateien) in die `.gitignore`, `PRODUCT.md` und `DESIGN.md` committen. Impeccable ausdrücklich sagen, dass Texte und Bilder aus `src/lib/content.ts` kommen.
 
 ## Ordner
 
